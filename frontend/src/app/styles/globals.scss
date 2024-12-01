@@ -1,0 +1,44 @@
+@import './variables.scss' ;
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+body {
+  background-color: $darkBlue;
+  color: #FFF;
+  font-family: Anek, Latin, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-image: linear-gradient(#421c6d, #0c0035 95%);
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: $lightGrey;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: $lightGrey;
+    border-radius: 12px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: $lightGrey;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+textarea {
+  font-family: Anek, Latin, sans-serif;
+}

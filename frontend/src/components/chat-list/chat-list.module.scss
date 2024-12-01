@@ -1,0 +1,81 @@
+@import '@/app/styles/variables.scss';
+
+.chatsList :global {
+  .container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    overflow-y: hidden;
+    background-color: rgba(46, 20, 76, 0.4);
+    padding: 64px 0px 16px;
+    gap: 32px;
+    height: 100%;
+    transition: width 0.3s ease-in-out;
+    &.closed {
+      > * {
+        display: none;
+      }
+      width: 0px !important;
+      overflow: visible;
+    }
+  }
+  .sidebarToggle {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFF;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.5s ease-in-out;
+    z-index: 1000000;
+    &.opened {
+      svg {
+        transform: rotate(-180deg);
+      }
+    };
+    &.closed {
+      right: -48px;
+    }
+  }
+  .prevConversation {
+    font-size: 14px;
+    margin: 0 20px;
+    color: #E5E5E5;
+    padding: 6px 12px;
+    border-bottom: 1px solid #ECECEC;
+  }
+  .chatList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    overflow-y: auto;
+    min-height: auto;
+  }
+  .chatListItem {
+    margin: 0 20px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 14px;
+    min-height: 36px;
+    &:hover, &.active {
+      background-color: $darkBlue;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+    &.start-new {
+      background-color: #FFF;
+      color: $darkBlue;
+    }
+  }
+}
