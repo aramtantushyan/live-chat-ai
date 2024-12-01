@@ -9,7 +9,7 @@ import { chevronRightIcon } from "@/utils/svg";
 const ChatList: React.FC = () => {
   const { chatsList, activeChatId } = useContext(ChatContext);
 
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
 
   useEffect(() => {

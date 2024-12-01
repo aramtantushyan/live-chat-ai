@@ -1,13 +1,19 @@
 import * as db from '../db/db.js';
 import { generateChatTitle, sendMessage } from './googleGenerativeService.js';
 
-export async function createChat(message) {
+export async function createChat(ws, message) {
   try {
-    const history = await sendMessage(message);
+    const history = await sendMessage(ws, message);
     const historyStringified = JSON.stringify(history);
     const chatTitle = await generateChatTitle(historyStringified);
     const result = db.run('INSERT INTO threads (title, history) VALUES (?, ?)', [chatTitle, historyStringified]);
-
+    ws.send(JSON.stringify({
+      type: 'event', 
+      data: {
+        eventName: 'chat_id_created',
+        chatId: result.lastInsertRowid
+      }
+    }));
     return {
       history,
       chatId: result.lastInsertRowid
@@ -17,14 +23,14 @@ export async function createChat(message) {
   }
 };
 
-export async function continueChat(chatId, message) {
+export async function continueChat(ws, chatId, message) {
   try {
     const currentChat = await db.get('SELECT * from threads WHERE id = ?', [chatId]);
     if (!currentChat) {
       throw new Error(`Chat with id: ${chatId} does not exist`)
     }
     const currentChatHistory = JSON.parse(currentChat.history);
-    const recentHistory = await sendMessage(message, currentChatHistory);
+    const recentHistory = await sendMessage(ws, message, currentChatHistory);
     const historyStringified = JSON.stringify(recentHistory);
 
     const shouldUpdateTitle = recentHistory.length !== 1 && recentHistory.length % 5 === 0;
@@ -35,6 +41,15 @@ export async function continueChat(chatId, message) {
 
     const result = db.run(
       `UPDATE threads SET history = ?${shouldUpdateTitle ? ', title = ?' : ''} WHERE id = ?`, [historyStringified, ...(shouldUpdateTitle ? [chatTitle] : []), chatId]);
+
+    if (shouldUpdateTitle && result) {
+      ws.send(JSON.stringify({
+        type: 'event',
+        data: {
+          eventName: 'chat_title_updated'
+        }
+      }));
+    }
   
     if (result.changes === 0) {
       throw new Error('Something wrong happened!');

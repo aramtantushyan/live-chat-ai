@@ -12,7 +12,7 @@ const ChatHistory: React.FC = () => {
     if (lastMessageRef.current) {
       lastMessageRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
-  }, [chatHistory])
+  }, [chatHistory]);
   
   return (
     <div className="chatHistory">

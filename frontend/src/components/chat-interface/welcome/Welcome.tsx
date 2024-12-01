@@ -4,7 +4,8 @@ const welcomePrompts = [
   'What are the known chemical properties of Aspirin? Give them in a table',
   'Can you give me chemical equation of Ferum\'s oxidation?',
   'Give me the list of proteins available in human heart',
-  'Give me the smiles of Aspirin'
+  'Give me the smiles of Aspirin',
+  'Tell about movies'
 ]
 const Welcome: React.FC = () => {
     return (
